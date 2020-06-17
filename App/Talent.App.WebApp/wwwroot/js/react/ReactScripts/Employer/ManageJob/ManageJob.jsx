@@ -68,16 +68,16 @@ export default class ManageJob extends React.Component {
         console.log("Calling loadData");
 		var link =
 			"http://localhost:51689/listing/listing/getSortedEmployerJobs";
-		var cookies = Cookies.get("talentAuthToken");
+        var cookies = Cookies.get("talentAuthToken");
 		// your ajax call and other logic goes here
 		var header = {
 			Authorization: "Bearer " + cookies,
-			"Content-Type": "application/json; charset=utf-8",
+            "Content-Type": "application/json; charset=utf-8",
         };
 
 		fetch(link, {
 			method: "GET",
-			headers: header,
+            headers: header,
 		}).then((data) => {
             return data.json();
 		}).then((data) => {

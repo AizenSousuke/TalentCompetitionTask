@@ -13,6 +13,7 @@ import {
 	Accordion,
 	Form,
 	Segment,
+	Card,
 } from "semantic-ui-react";
 
 export default class ManageJob extends React.Component {
@@ -52,11 +53,14 @@ export default class ManageJob extends React.Component {
 
 		//set loaderData.isLoading to false after getting data
 		this.loadData((data) => {
-            console.log("Data loaded: ", data);
-            loaderData.isLoading = false;
-			this.setState({ loaderData }, () => {
-				// console.log("Loader Data: ", this.state.loaderData);
-			});
+			console.log("Data loaded: ", data);
+			loaderData.isLoading = false;
+			this.setState(
+				{ loaderData: loaderData, loadJobs: data.myJobs },
+				() => {
+					// console.log("Loader Data: ", this.state.loaderData);
+				}
+			);
 		});
 	}
 
@@ -65,25 +69,27 @@ export default class ManageJob extends React.Component {
 	}
 
 	loadData(callback) {
-        console.log("Calling loadData");
+		console.log("Calling loadData");
 		var link =
 			"http://localhost:51689/listing/listing/getSortedEmployerJobs";
-        var cookies = Cookies.get("talentAuthToken");
+		var cookies = Cookies.get("talentAuthToken");
 		// your ajax call and other logic goes here
 		var header = {
 			Authorization: "Bearer " + cookies,
-            "Content-Type": "application/json; charset=utf-8",
-        };
+			"Content-Type": "application/json; charset=utf-8",
+		};
 
 		fetch(link, {
 			method: "GET",
-            headers: header,
-		}).then((data) => {
-            return data.json();
-		}).then((data) => {
-            console.log("GET RESPONSE: ", data);
-            callback(data);
-        });
+			headers: header,
+		})
+			.then((data) => {
+				return data.json();
+			})
+			.then((data) => {
+				console.log("GET RESPONSE: ", data);
+				callback(data);
+			});
 	}
 
 	loadNewData(data) {
@@ -107,6 +113,24 @@ export default class ManageJob extends React.Component {
 				<div className="ui container">
 					Your table goes here
 					<h1>List of Jobs</h1>
+					{this.state.loadJobs.length > 0 ? (this.state.loadJobs.map((jobs) => {
+						return (
+							<Card key={jobs.id}>
+								<Card.Content>
+									<Card.Header>{jobs.title}</Card.Header>
+                                    <Card.Meta>{jobs.location.country}, {jobs.location.city}</Card.Meta>
+									<Card.Description>
+										{jobs.summary}
+                                        <br></br>
+										{jobs.expiryDate}
+									</Card.Description>
+								</Card.Content>
+							</Card>
+						);
+					})) : (
+                        <div>No Jobs Found</div>
+                    )
+                    }
 				</div>
 			</BodyWrapper>
 		);

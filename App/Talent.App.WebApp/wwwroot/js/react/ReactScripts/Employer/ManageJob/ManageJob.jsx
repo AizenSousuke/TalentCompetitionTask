@@ -55,27 +55,27 @@ export default class ManageJob extends React.Component {
 			{
 				key: 1,
 				text: "Show Active",
-				value: this.state.filter.showActive,
+				value: "showActive",
 			},
 			{
 				key: 2,
 				text: "Show Closed",
-				value: this.state.filter.showClosed,
+				value: "showClosed",
 			},
 			{
 				key: 3,
 				text: "Show Draft",
-				value: this.state.filter.showDraft,
+				value: "showDraft",
 			},
 			{
 				key: 4,
 				text: "Show Expired",
-				value: this.state.filter.showExpired,
+				value: "showExpired",
 			},
 			{
 				key: 5,
 				text: "Show Unexpired",
-				value: this.state.filter.showUnexpired,
+				value: "showUnexpired",
 			},
 		];
 
@@ -204,7 +204,7 @@ export default class ManageJob extends React.Component {
 													floated={"left"}
 												>
 													<Button color="green">
-														{jobs.expiryDate}
+														Open
 													</Button>
 												</Button.Group>
 											) : (
@@ -242,6 +242,18 @@ export default class ManageJob extends React.Component {
 							<div>No Jobs Found</div>
 						)}
 					</Card.Group>
+					<Grid columns={"equal"}>
+						<Grid.Row>
+							<Grid.Column></Grid.Column>
+							<Grid.Column>
+								<Pagination
+									defaultActivePage={1}
+									totalPages={1}
+								/>
+							</Grid.Column>
+							<Grid.Column></Grid.Column>
+						</Grid.Row>
+					</Grid>
 					<Divider />
 				</Container>
 			</BodyWrapper>

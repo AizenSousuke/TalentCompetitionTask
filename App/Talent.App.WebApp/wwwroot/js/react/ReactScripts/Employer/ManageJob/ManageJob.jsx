@@ -190,39 +190,37 @@ export default class ManageJob extends React.Component {
 			});
 	}
 
-	handleOpen(id) {
-		this.openJob(id, (data) => {
+	handleOpen(job) {
+		this.openJob(job, (data) => {
 			console.log(data);
 		});
 	}
 
-	openJob(id, callback) {
-		console.log("Calling openJob");
-		console.log(id);
-		var link = "http://localhost:51689/listing/listing/createUpdateJob";
-		var cookies = Cookies.get("talentAuthToken");
-		// your ajax call and other logic goes here
-		var header = {
-			Authorization: "Bearer " + cookies,
-			"Content-Type": "application/json; charset=utf-8",
-		};
-		var body = {
-			"id": id.toString(),
-		}
+	// openJob(job, callback) {
+	// 	console.log("Calling openJob");
+	// 	console.log(job);
+	// 	var link = "http://localhost:51689/listing/listing/createUpdateJob";
+	// 	var cookies = Cookies.get("talentAuthToken");
+	// 	// your ajax call and other logic goes here
+	// 	var header = {
+	// 		Authorization: "Bearer " + cookies,
+	// 		"Content-Type": "application/json; charset=utf-8",
+	// 	};
+	// 	var body = job;
 
-		fetch(link, {
-			method: "POST",
-			headers: header,
-			body: body,
-		})
-			.then((data) => {
-				return data.json();
-			})
-			.then((data) => {
-				console.log("GET RESPONSE: ", data);
-				callback(data);
-			});
-	}
+	// 	fetch(link, {
+	// 		method: "POST",
+	// 		headers: header,
+	// 		body: JSON.stringify(body),
+	// 	})
+	// 		.then((data) => {
+	// 			return data.json();
+	// 		})
+	// 		.then((data) => {
+	// 			console.log("GET RESPONSE: ", data);
+	// 			callback(data);
+	// 		});
+	// }
 
 	render() {
 		return (
@@ -320,14 +318,9 @@ export default class ManageJob extends React.Component {
 													<Button
 														basic
 														color="blue"
-														onClick={(e) => {
-															this.handleOpen(
-																jobs.id
-															);
-														}}
 													>
 														<Icon name="envelope open outline" />
-														Open
+														Reopen
 													</Button>
 												</Button.Group>
 											)}

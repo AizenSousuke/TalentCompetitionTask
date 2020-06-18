@@ -14,6 +14,12 @@ import {
 	Form,
 	Segment,
 	Card,
+	Button,
+	Label,
+	Container,
+	Grid,
+	ButtonGroup,
+	Divider,
 } from "semantic-ui-react";
 
 export default class ManageJob extends React.Component {
@@ -44,6 +50,49 @@ export default class ManageJob extends React.Component {
 		this.init = this.init.bind(this);
 		this.loadNewData = this.loadNewData.bind(this);
 		//your functions go here
+
+		this.filters = [
+			{
+				key: 1,
+				text: "Show Active",
+				value: this.state.filter.showActive,
+			},
+			{
+				key: 2,
+				text: "Show Closed",
+				value: this.state.filter.showClosed,
+			},
+			{
+				key: 3,
+				text: "Show Draft",
+				value: this.state.filter.showDraft,
+			},
+			{
+				key: 4,
+				text: "Show Expired",
+				value: this.state.filter.showExpired,
+			},
+			{
+				key: 5,
+				text: "Show Unexpired",
+				value: this.state.filter.showUnexpired,
+			},
+		];
+
+		this.sortBy = [
+			{
+				key: 1,
+				text: "Newest first",
+				value: "desc",
+			},
+			{
+				key: 2,
+				text: "Oldest first",
+				value: "asc",
+			},
+		];
+
+		console.log(this.filters);
 	}
 
 	init() {
@@ -110,28 +159,91 @@ export default class ManageJob extends React.Component {
 	render() {
 		return (
 			<BodyWrapper reload={this.init} loaderData={this.state.loaderData}>
-				<div className="ui container">
-					Your table goes here
+				<Container>
 					<h1>List of Jobs</h1>
-					{this.state.loadJobs.length > 0 ? (this.state.loadJobs.map((jobs) => {
-						return (
-							<Card key={jobs.id}>
-								<Card.Content>
-									<Card.Header>{jobs.title}</Card.Header>
-                                    <Card.Meta>{jobs.location.country}, {jobs.location.city}</Card.Meta>
-									<Card.Description>
-										{jobs.summary}
-                                        <br></br>
-										{jobs.expiryDate}
-									</Card.Description>
-								</Card.Content>
-							</Card>
-						);
-					})) : (
-                        <div>No Jobs Found</div>
-                    )
-                    }
-				</div>
+					<Icon name="filter" />
+					Filter:{" "}
+					<Dropdown
+						placeholder="Choose filter"
+						multiple
+						options={this.filters}
+					/>
+					<Icon name="calendar" />
+					Sort by date:{" "}
+					<Dropdown
+						options={this.sortBy}
+						defaultValue={this.state.sortBy.date}
+					/>
+					<Divider />
+					<Card.Group itemsPerRow={2}>
+						{this.state.loadJobs.length > 0 ? (
+							this.state.loadJobs.map((jobs) => {
+								return (
+									<Card key={jobs.id}>
+										<Card.Content>
+											<Card.Header>
+												{jobs.title}
+											</Card.Header>
+											<Label color="black" ribbon="right">
+												<Icon name="user" />
+												{jobs.noOfSuggestions}
+											</Label>
+											<Card.Meta>
+												{jobs.location.country},{" "}
+												{jobs.location.city}
+											</Card.Meta>
+											<Card.Description>
+												{jobs.summary}
+												<br></br>
+											</Card.Description>
+										</Card.Content>
+										<Card.Content>
+											{jobs.status === 0 ? (
+												<Button.Group
+													compact
+													floated={"left"}
+												>
+													<Button color="green">
+														{jobs.expiryDate}
+													</Button>
+												</Button.Group>
+											) : (
+												<Button.Group
+													compact
+													floated={"left"}
+												>
+													<Button color="red">
+														Expired
+													</Button>
+												</Button.Group>
+											)}
+											<Button.Group
+												compact
+												floated={"right"}
+											>
+												<Button basic color="blue">
+													<Icon name="close" />
+													Close
+												</Button>
+												<Button basic color="blue">
+													<Icon name="edit" />
+													Edit
+												</Button>
+												<Button basic color="blue">
+													<Icon name="copy" />
+													Copy
+												</Button>
+											</Button.Group>
+										</Card.Content>
+									</Card>
+								);
+							})
+						) : (
+							<div>No Jobs Found</div>
+						)}
+					</Card.Group>
+					<Divider />
+				</Container>
 			</BodyWrapper>
 		);
 	}

@@ -50,6 +50,8 @@ export default class ManageJob extends React.Component {
 		this.init = this.init.bind(this);
 		this.loadNewData = this.loadNewData.bind(this);
 		//your functions go here
+		this.handleClose = this.handleClose.bind(this);
+		this.closeJob = this.closeJob.bind(this);
 
 		this.filters = [
 			{
@@ -156,6 +158,72 @@ export default class ManageJob extends React.Component {
 		});
 	}
 
+	handleClose(id) {
+		this.closeJob(id, (data) => {
+			console.log(data);
+		});
+	}
+
+	closeJob(id, callback) {
+		console.log("Calling closeJob");
+		console.log(id);
+		var link = "http://localhost:51689/listing/listing/closeJob";
+		var cookies = Cookies.get("talentAuthToken");
+		// your ajax call and other logic goes here
+		var header = {
+			Authorization: "Bearer " + cookies,
+			"Content-Type": "application/json; charset=utf-8",
+		};
+		var body = id.toString();
+
+		fetch(link, {
+			method: "POST",
+			headers: header,
+			body: body,
+		})
+			.then((data) => {
+				return data.json();
+			})
+			.then((data) => {
+				console.log("GET RESPONSE: ", data);
+				callback(data);
+			});
+	}
+
+	handleOpen(id) {
+		this.openJob(id, (data) => {
+			console.log(data);
+		});
+	}
+
+	openJob(id, callback) {
+		console.log("Calling openJob");
+		console.log(id);
+		var link = "http://localhost:51689/listing/listing/createUpdateJob";
+		var cookies = Cookies.get("talentAuthToken");
+		// your ajax call and other logic goes here
+		var header = {
+			Authorization: "Bearer " + cookies,
+			"Content-Type": "application/json; charset=utf-8",
+		};
+		var body = {
+			"id": id.toString(),
+		}
+
+		fetch(link, {
+			method: "POST",
+			headers: header,
+			body: body,
+		})
+			.then((data) => {
+				return data.json();
+			})
+			.then((data) => {
+				console.log("GET RESPONSE: ", data);
+				callback(data);
+			});
+	}
+
 	render() {
 		return (
 			<BodyWrapper reload={this.init} loaderData={this.state.loaderData}>
@@ -217,23 +285,52 @@ export default class ManageJob extends React.Component {
 													</Button>
 												</Button.Group>
 											)}
-											<Button.Group
-												compact
-												floated={"right"}
-											>
-												<Button basic color="blue">
-													<Icon name="close" />
-													Close
-												</Button>
-												<Button basic color="blue">
-													<Icon name="edit" />
-													Edit
-												</Button>
-												<Button basic color="blue">
-													<Icon name="copy" />
-													Copy
-												</Button>
-											</Button.Group>
+											{jobs.status === 0 ? (
+												<Button.Group
+													compact
+													floated={"right"}
+												>
+													<Button
+														basic
+														color="blue"
+														onClick={(e) => {
+															console.log(
+																"Closing job",
+																jobs
+															);
+															this.handleClose(
+																jobs.id
+															);
+														}}
+													>
+														<Icon name="close" />
+														Close
+													</Button>
+													<Button basic color="blue">
+														<Icon name="edit" />
+														Edit
+													</Button>
+													<Button basic color="blue">
+														<Icon name="copy" />
+														Copy
+													</Button>
+												</Button.Group>
+											) : (
+												<Button.Group compact floated={"right"}>
+													<Button
+														basic
+														color="blue"
+														onClick={(e) => {
+															this.handleOpen(
+																jobs.id
+															);
+														}}
+													>
+														<Icon name="envelope open outline" />
+														Open
+													</Button>
+												</Button.Group>
+											)}
 										</Card.Content>
 									</Card>
 								);

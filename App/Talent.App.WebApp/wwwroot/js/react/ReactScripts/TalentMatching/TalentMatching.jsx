@@ -81,24 +81,24 @@ export default class TalentMatching extends React.Component {
     //        });
     //}
 
-    //loadJobs(data) { // url: 'http://localhost:51689/listing/listing/getEmployerJobs',
+    //loadJobs(data) { // url: `${TALENT_SERVICES_TALENT}/listing/listing/getEmployerJobs',
         
-    //loadSelectedJob(data) url: 'http://localhost:51689/listing/listing/getJobForTalentMatching',
+    //loadSelectedJob(data) url: `${TALENT_SERVICES_TALENT}/listing/listing/getJobForTalentMatching',
 
-    //loadTalentList()  url: 'http://localhost:60290/profile/profile/getTalentList',
+    //loadTalentList()  url: `${TALENT_SERVICES_PROFILE}/profile/profile/getTalentList`,
 
-    //loadTalentFilterList() //url: 'http://localhost:60290/profile/profile/getTalentListFilter',
+    //loadTalentFilterList() //url: `${TALENT_SERVICES_PROFILE}/profile/profile/getTalentListFilter`,
 
-    //loadEmployerFilterList() //url: 'http://localhost:60290/profile/profile/getEmployerListFilter',
+    //loadEmployerFilterList() //url: `${TALENT_SERVICES_PROFILE}/profile/profile/getEmployerListFilter`,
 
 
-    // loadEmployerList() // url: 'http://localhost:60290/profile/profile/getEmployerList',
-    //loadSuggestionList   url: 'http://localhost:60290/profile/profile/getSuggestionList',
+    // loadEmployerList() // url: `${TALENT_SERVICES_PROFILE}/profile/profile/getEmployerList`,
+    //loadSuggestionList   url: `${TALENT_SERVICES_PROFILE}/profile/profile/getSuggestionList`,
 
-   // saveCompanyTalents()   url: 'http://localhost:60290/profile/profile/addTalentSuggestions',
+   // saveCompanyTalents()   url: `${TALENT_SERVICES_PROFILE}/profile/profile/addTalentSuggestions`,
      
 
-    //saveJobTalents()    url: 'http://localhost:60290/profile/profile/addTalentSuggestions',
+    //saveJobTalents()    url: `${TALENT_SERVICES_PROFILE}/profile/profile/addTalentSuggestions`,
        
 
     

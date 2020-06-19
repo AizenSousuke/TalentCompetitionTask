@@ -21,6 +21,7 @@ import {
 	ButtonGroup,
 	Divider,
 } from "semantic-ui-react";
+import { TALENT_SERVICES_TALENT } from "../../HOSTNAME.js";
 
 export default class ManageJob extends React.Component {
 	constructor(props) {
@@ -122,7 +123,7 @@ export default class ManageJob extends React.Component {
 	loadData(callback) {
 		console.log("Calling loadData");
 		var link =
-			"http://localhost:51689/listing/listing/getSortedEmployerJobs";
+			`${TALENT_SERVICES_TALENT}/listing/listing/getSortedEmployerJobs`;
 		var cookies = Cookies.get("talentAuthToken");
 		// your ajax call and other logic goes here
 		var header = {
@@ -167,7 +168,7 @@ export default class ManageJob extends React.Component {
 	closeJob(id, callback) {
 		console.log("Calling closeJob");
 		console.log(id);
-		var link = "http://localhost:51689/listing/listing/closeJob";
+		var link = `${TALENT_SERVICES_TALENT}/listing/listing/closeJob`;
 		var cookies = Cookies.get("talentAuthToken");
 		// your ajax call and other logic goes here
 		var header = {
@@ -199,7 +200,7 @@ export default class ManageJob extends React.Component {
 	// openJob(job, callback) {
 	// 	console.log("Calling openJob");
 	// 	console.log(job);
-	// 	var link = "http://localhost:51689/listing/listing/createUpdateJob";
+	// 	var link = `${TALENT_SERVICES_TALENT}/listing/listing/createUpdateJob`;
 	// 	var cookies = Cookies.get("talentAuthToken");
 	// 	// your ajax call and other logic goes here
 	// 	var header = {

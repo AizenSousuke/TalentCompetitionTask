@@ -3,6 +3,7 @@ import { Container, Form, Loader } from 'semantic-ui-react'
 import { SingleInput } from '../Form/SingleInput.jsx'
 import { Select } from '../Form/Select.jsx'
 import { FormErrors } from '../Form/FormErrors.jsx'
+import { TALENT_SERVICES_IDENTITY } from '../HOSTNAME.js';
 
 export default class ResetPassword extends React.Component {
     constructor(props) {
@@ -42,7 +43,7 @@ export default class ResetPassword extends React.Component {
             Email: email,
             Token: token
         }
-        let url = `http://localhost:60998/authentication/authentication/verifyResetPasswordToken?o=${email}&p=${token}`;
+        let url = `${TALENT_SERVICES_IDENTITY}/authentication/authentication/verifyResetPasswordToken?o=${email}&p=${token}`;
         $.ajax({
             url: url,
             type: 'POST',
@@ -130,7 +131,7 @@ export default class ResetPassword extends React.Component {
         let newPassword = this.state.newPassword;
         let email = this.state.email;
         let token = this.state.token;
-        let resetUrl = `http://localhost:60998/authentication/authentication/resetpassword?o=${email}&p=${token}`;
+        let resetUrl = `${TALENT_SERVICES_IDENTITY}/authentication/authentication/resetpassword?o=${email}&p=${token}`;
 
         $.ajax({
             url: resetUrl,

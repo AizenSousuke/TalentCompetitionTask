@@ -1,3 +1,28 @@
+## Brief Description
+
+This project is a fork of one at MVP's Talent Competition Repository. 
+
+I have implemented the following Task as described below:
+
+* Task 1 : Employer profile page
+  * Add last name to the primary contact details
+  * Allow users to edit company contact details by clicking on the edit button
+  * Display the user's full name on primary contact details (for read only display)
+
+* Task 2 : Manage Job page
+  * Display jobs as a list of cards
+  * Close a job using the Close Button
+
+
+## Images
+
+![image](https://i.imgur.com/O35wMBq.png)
+![image](https://i.imgur.com/MJOCwup.png)
+![image](https://i.imgur.com/cfpnDeZ.png)
+
+
+# --------------------------------------------------------------------------------
+
 ## Talent Competition Code Repository
 
 This project will help interns at MVP Studio to understand how ReactJs, C# Web Api, MongoDb is used in Talent Code Architecture. 

@@ -241,7 +241,7 @@ export default class ManageJob extends React.Component {
 						options={this.sortBy}
 						defaultValue={this.state.sortBy.date}
 					/>
-					<Divider />
+					{/* <Divider /> */}
 					<Card.Group itemsPerRow={2}>
 						{this.state.loadJobs.length > 0 ? (
 							this.state.loadJobs.map((jobs) => {
@@ -330,7 +330,7 @@ export default class ManageJob extends React.Component {
 								);
 							})
 						) : (
-							<div>No Jobs Found</div>
+							<Container>No Jobs Found</Container>
 						)}
 					</Card.Group>
 					<Grid columns={"equal"}>
@@ -345,7 +345,7 @@ export default class ManageJob extends React.Component {
 							<Grid.Column></Grid.Column>
 						</Grid.Row>
 					</Grid>
-					<Divider />
+					{/* <Divider /> */}
 				</Container>
 			</BodyWrapper>
 		);

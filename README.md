@@ -13,6 +13,9 @@ I have implemented the following Task as described below:
   * Display jobs as a list of cards
   * Close a job using the Close Button
 
+## Website
+
+[Azure](https://talentappwebappnik.azurewebsites.net/)
 
 ## Images
 

@@ -10,6 +10,12 @@ export class JobDescription extends React.Component {
         this.updatePropData = this.updatePropData.bind(this);
       
     };
+
+    componentWillMount() {
+        // Force update the content
+        this.updatePropData(this.props.description);
+    }
+
     updateContent(newContent) {
         this.updatePropData(newContent);
     }
@@ -18,6 +24,7 @@ export class JobDescription extends React.Component {
         var newContent = evt.editor.getData();
         this.updatePropData(newContent);
     }
+
     updatePropData(newContent) {
         var event = { target: { name: "description", value: newContent } }
         this.props.controlFunc(event);
@@ -33,7 +40,8 @@ export class JobDescription extends React.Component {
                     events={{
                         "blur": this.onChange,
                         "afterPaste": this.onChange,
-                        "change": this.onChange
+                        "change": this.onChange,
+                        "contentDom": this.onChange,
                     }}
                 />
             </section>

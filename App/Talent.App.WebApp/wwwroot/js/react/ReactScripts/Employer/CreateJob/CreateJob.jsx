@@ -86,7 +86,7 @@ export default class CreateJob extends React.Component {
                         res.jobData.expiryDate = res.jobData.expiryDate
                             ? moment(res.jobData.expiryDate) > moment()
                                 ? moment(res.jobData.expiryDate) : moment().add(14,'days') : null;
-                        this.setState({ jobData: res.jobData })
+                        this.setState({ jobData: res.jobData });
                     } else {
                         TalentUtil.notification.show(res.message, "error", null, null)
                     }
@@ -139,7 +139,7 @@ export default class CreateJob extends React.Component {
                         <div className="ui grid">
                             <div className="row">
                                 <div className="sixteen wide center aligned padded column">
-                                    <h1>Create Job</h1>
+                                    <h1>{this.props.match.path === "/PostJob/:copyId?" ? "Create Job" : "Edit Job"}</h1>
                                 </div>
                             </div>
 

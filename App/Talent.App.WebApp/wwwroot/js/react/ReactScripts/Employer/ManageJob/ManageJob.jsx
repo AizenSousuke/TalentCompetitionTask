@@ -122,8 +122,7 @@ export default class ManageJob extends React.Component {
 
 	loadData(callback) {
 		console.log("Calling loadData");
-		var link =
-			`${TALENT_SERVICES_TALENT}/listing/listing/getSortedEmployerJobs`;
+		var link = `${TALENT_SERVICES_TALENT}/listing/listing/getSortedEmployerJobs`;
 		var cookies = Cookies.get("talentAuthToken");
 		// your ajax call and other logic goes here
 		var header = {
@@ -223,6 +222,12 @@ export default class ManageJob extends React.Component {
 	// 		});
 	// }
 
+	handleEdit(id) {
+		console.log("Calling handleEdit: ", id);
+		// Go to the page with href
+		this.props.history.push("/EditJob/" + id);
+	}
+
 	render() {
 		return (
 			<BodyWrapper reload={this.init} loaderData={this.state.loaderData}>
@@ -305,7 +310,19 @@ export default class ManageJob extends React.Component {
 														<Icon name="close" />
 														Close
 													</Button>
-													<Button basic color="blue">
+													<Button
+														basic
+														color="blue"
+														onClick={(e) => {
+															console.log(
+																"Editing job: ",
+																jobs.id
+															);
+															this.handleEdit(
+																jobs.id
+															);
+														}}
+													>
 														<Icon name="edit" />
 														Edit
 													</Button>
@@ -315,11 +332,11 @@ export default class ManageJob extends React.Component {
 													</Button>
 												</Button.Group>
 											) : (
-												<Button.Group compact floated={"right"}>
-													<Button
-														basic
-														color="blue"
-													>
+												<Button.Group
+													compact
+													floated={"right"}
+												>
+													<Button basic color="blue">
 														<Icon name="envelope open outline" />
 														Reopen
 													</Button>

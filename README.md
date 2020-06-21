@@ -12,6 +12,7 @@ I have implemented the following Task as described below:
 * Task 2 : Manage Job page
   * Display jobs as a list of cards
   * Close a job using the Close Button
+  * Edit a job using the Edit Button (Known Bug with the Description Editor: In some cases it doesn't update based on data from the server. Just refresh the page and it will load it successfully.)
 
 ## Website
 

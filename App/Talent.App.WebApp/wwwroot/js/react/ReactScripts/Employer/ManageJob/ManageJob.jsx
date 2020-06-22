@@ -40,7 +40,7 @@ export default class ManageJob extends React.Component {
 			},
 			filter: {
 				showActive: true,
-				showClosed: false,
+				showClosed: true,
 				showDraft: true,
 				showExpired: true,
 				showUnexpired: true,
@@ -119,7 +119,32 @@ export default class ManageJob extends React.Component {
 		this.init();
 	}
 
-	loadData(callback = null, params = ["desc"]) {
+	handleChange(event, value, callback = null) {
+		// Change event for filters
+		console.log(value);
+		switch (value) {
+			case "asc":
+				this.setState({ sortBy: { date: "asc" } }, (data) => {
+					callback(data);
+				});
+				break;
+			case "desc":
+				this.setState({ sortBy: { date: "desc" } }, (data) => {
+					callback(data);
+				});
+				break;
+			default:
+				this.setState(
+					{ filter: { [value]: true, [!value]: false } },
+					(data) => {
+						callback(data);
+					}
+				);
+				break;
+		}
+	}
+
+	loadData(callback = () => {}, params = null) {
 		console.log("Calling loadData");
 		var link = `${TALENT_SERVICES_TALENT}/listing/listing/getSortedEmployerJobs`;
 		var cookies = Cookies.get("talentAuthToken");
@@ -128,26 +153,26 @@ export default class ManageJob extends React.Component {
 			Authorization: "Bearer " + cookies,
 			"Content-Type": "application/json; charset=utf-8",
 		};
-		var params = params;
-		if (params !== null) {
-			var obj = {
-				sortByDate: params.includes("desc") ? "desc" : "asc",
-				showActive: params.includes("showActive") ? true : false,
-				showClosed: params.includes("showClosed") ? true : false,
-				showDraft: params.includes("showDraft") ? true : false,
-				showExpired: params.includes("showExpired") ? true : false,
-				showUnexpired: params.includes("showUnexpired") ? true : false,
-			};
-			console.log(obj);
 
-			var url = new URL(link);
-			// Append params to url
-			Object.keys(obj).forEach((key) => {
+		var obj = {
+			showActive: this.state.filter.showActive,
+			showClosed: this.state.filter.showClosed,
+			showDraft: this.state.filter.showDraft,
+			showExpired: this.state.filter.showExpired,
+			showUnexpired: this.state.filter.showUnexpired,
+			sortbyDate: this.state.sortBy.date,
+		};
+		console.log("Sorting with: ", obj);
+
+		var url = new URL(link);
+		// Append params to url
+		Object.keys(obj).forEach((key) => {
+			if (obj[key] != false) {
 				url.searchParams.append(key, obj[key]);
-			});
-			console.log("New URL with params: ", url);
-			link = url;
-		}
+			}
+		});
+		console.log("New URL with params: ", url);
+		link = url;
 
 		fetch(link, {
 			method: "GET",
@@ -210,9 +235,9 @@ export default class ManageJob extends React.Component {
 	}
 
 	handleOpen(job) {
-		this.openJob(job, (data) => {
-			console.log(data);
-		});
+		// this.openJob(job, (data) => {
+		// 	console.log(data);
+		// });
 	}
 
 	// openJob(job, callback) {
@@ -256,15 +281,16 @@ export default class ManageJob extends React.Component {
 					Filter:{" "}
 					<Dropdown
 						placeholder="Choose filter"
-						multiple
 						options={this.filters}
 						onChange={(e, { value }) => {
-							console.log(value);
-							this.loadData((data) => {
-								this.setState({ loadJobs: data.myJobs }, () =>
-									console.log("Set new sorting")
-								);
-							}, value);
+							this.handleChange(e, value, () => {
+								this.loadData((data) => {
+									this.setState(
+										{ loadJobs: data.myJobs },
+										() => console.log("Set new sorting")
+									);
+								});
+							});
 						}}
 					/>
 					<Icon name="calendar" />
@@ -274,19 +300,16 @@ export default class ManageJob extends React.Component {
 						options={this.sortBy}
 						defaultValue={this.sortBy[0].value}
 						onChange={(e, { value }) => {
-							this.loadData((data) => {
-								this.setState({ loadJobs: data.myJobs }, () =>
-									console.log("Set new sorting")
-								);
-							}, value);
+							this.handleChange(e, value, () => {
+								this.loadData((data) => {
+									this.setState(
+										{ loadJobs: data.myJobs },
+										() => console.log("Set new sorting")
+									);
+								});
+							});
 						}}
 					/>
-					{/* <Select 
-						name="sortByDate"
-						options={this.sortBy}
-						controlFunc={(e) => this.loadData(null, {sortByDate: e.target.value})}
-						
-					/> */}
 					{/* <Divider /> */}
 					<Card.Group itemsPerRow={2}>
 						{this.state.loadJobs.length > 0 ? (

@@ -23,6 +23,7 @@ import {
 } from "semantic-ui-react";
 import { TALENT_SERVICES_TALENT } from "../../HOSTNAME.js";
 import { Select } from "../../Form/Select.jsx";
+import moment from "moment";
 
 export default class ManageJob extends React.Component {
 	constructor(props) {
@@ -272,6 +273,19 @@ export default class ManageJob extends React.Component {
 		this.props.history.push("/EditJob/" + id);
 	}
 
+	checkExpiry(dateTime1, dateTimeCurrent = Date.now()) {
+		// console.log(dateTime1);
+		var currentDateTime = moment(dateTimeCurrent).toISOString();
+		// console.log(currentDateTime);
+		if (dateTime1 > currentDateTime) {
+			// console.log("Not expired");
+			return false;
+		} else {
+			// console.log("Expired");
+			return true;
+		}
+	}
+
 	render() {
 		return (
 			<BodyWrapper reload={this.init} loaderData={this.state.loaderData}>
@@ -334,7 +348,7 @@ export default class ManageJob extends React.Component {
 											</Card.Description>
 										</Card.Content>
 										<Card.Content>
-											{jobs.status === 0 ? (
+											{this.checkExpiry(jobs.expiryDate) == false ? (
 												<Button.Group
 													compact
 													floated={"left"}

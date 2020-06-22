@@ -119,7 +119,7 @@ export default class ManageJob extends React.Component {
 		this.init();
 	}
 
-	loadData(callback = null, params = { sortByDate: 'desc' }) {
+	loadData(callback = null, params = ["desc"]) {
 		console.log("Calling loadData");
 		var link = `${TALENT_SERVICES_TALENT}/listing/listing/getSortedEmployerJobs`;
 		var cookies = Cookies.get("talentAuthToken");
@@ -130,11 +130,21 @@ export default class ManageJob extends React.Component {
 		};
 		var params = params;
 		if (params !== null) {
+			var obj = {
+				sortByDate: params.includes("desc") ? "desc" : "asc",
+				showActive: params.includes("showActive") ? true : false,
+				showClosed: params.includes("showClosed") ? true : false,
+				showDraft: params.includes("showDraft") ? true : false,
+				showExpired: params.includes("showExpired") ? true : false,
+				showUnexpired: params.includes("showUnexpired") ? true : false,
+			};
+			console.log(obj);
+
 			var url = new URL(link);
 			// Append params to url
-			Object.keys(params).forEach((key) =>
-				url.searchParams.append(key, params[key])
-			);
+			Object.keys(obj).forEach((key) => {
+				url.searchParams.append(key, obj[key]);
+			});
 			console.log("New URL with params: ", url);
 			link = url;
 		}
@@ -250,21 +260,13 @@ export default class ManageJob extends React.Component {
 						options={this.filters}
 						onChange={(e, { value }) => {
 							console.log(value);
-							this.loadData(
-								(data) => {
-									this.setState(
-										{ loadJobs: data.myJobs },
-										() => console.log("Set new sorting")
-									);
-								}
-							);
+							this.loadData((data) => {
+								this.setState({ loadJobs: data.myJobs }, () =>
+									console.log("Set new sorting")
+								);
+							}, value);
 						}}
 					/>
-					{/* <Select 
-						name="sortByDate"
-						options={this.filters}
-						controlFunc={this.loadData}
-					/> */}
 					<Icon name="calendar" />
 					Sort by date:{" "}
 					<Dropdown
@@ -272,17 +274,11 @@ export default class ManageJob extends React.Component {
 						options={this.sortBy}
 						defaultValue={this.sortBy[0].value}
 						onChange={(e, { value }) => {
-							this.loadData(
-								(data) => {
-									this.setState(
-										{ loadJobs: data.myJobs },
-										() => console.log("Set new sorting")
-									);
-								},
-								{
-									sortByDate: value,
-								}
-							);
+							this.loadData((data) => {
+								this.setState({ loadJobs: data.myJobs }, () =>
+									console.log("Set new sorting")
+								);
+							}, value);
 						}}
 					/>
 					{/* <Select 

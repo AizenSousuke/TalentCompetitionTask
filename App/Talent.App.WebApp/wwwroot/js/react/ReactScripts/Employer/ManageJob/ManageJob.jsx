@@ -22,6 +22,7 @@ import {
 	Divider,
 } from "semantic-ui-react";
 import { TALENT_SERVICES_TALENT } from "../../HOSTNAME.js";
+import { Select } from "../../Form/Select.jsx";
 
 export default class ManageJob extends React.Component {
 	constructor(props) {
@@ -94,8 +95,6 @@ export default class ManageJob extends React.Component {
 				value: "asc",
 			},
 		];
-
-		console.log(this.filters);
 	}
 
 	init() {
@@ -120,7 +119,7 @@ export default class ManageJob extends React.Component {
 		this.init();
 	}
 
-	loadData(callback) {
+	loadData(callback = null, params = { sortByDate: 'desc' }) {
 		console.log("Calling loadData");
 		var link = `${TALENT_SERVICES_TALENT}/listing/listing/getSortedEmployerJobs`;
 		var cookies = Cookies.get("talentAuthToken");
@@ -129,6 +128,16 @@ export default class ManageJob extends React.Component {
 			Authorization: "Bearer " + cookies,
 			"Content-Type": "application/json; charset=utf-8",
 		};
+		var params = params;
+		if (params !== null) {
+			var url = new URL(link);
+			// Append params to url
+			Object.keys(params).forEach((key) =>
+				url.searchParams.append(key, params[key])
+			);
+			console.log("New URL with params: ", url);
+			link = url;
+		}
 
 		fetch(link, {
 			method: "GET",
@@ -239,13 +248,49 @@ export default class ManageJob extends React.Component {
 						placeholder="Choose filter"
 						multiple
 						options={this.filters}
+						onChange={(e, { value }) => {
+							console.log(value);
+							this.loadData(
+								(data) => {
+									this.setState(
+										{ loadJobs: data.myJobs },
+										() => console.log("Set new sorting")
+									);
+								}
+							);
+						}}
 					/>
+					{/* <Select 
+						name="sortByDate"
+						options={this.filters}
+						controlFunc={this.loadData}
+					/> */}
 					<Icon name="calendar" />
 					Sort by date:{" "}
 					<Dropdown
+						placeholder="Newest first"
 						options={this.sortBy}
-						defaultValue={this.state.sortBy.date}
+						defaultValue={this.sortBy[0].value}
+						onChange={(e, { value }) => {
+							this.loadData(
+								(data) => {
+									this.setState(
+										{ loadJobs: data.myJobs },
+										() => console.log("Set new sorting")
+									);
+								},
+								{
+									sortByDate: value,
+								}
+							);
+						}}
 					/>
+					{/* <Select 
+						name="sortByDate"
+						options={this.sortBy}
+						controlFunc={(e) => this.loadData(null, {sortByDate: e.target.value})}
+						
+					/> */}
 					{/* <Divider /> */}
 					<Card.Group itemsPerRow={2}>
 						{this.state.loadJobs.length > 0 ? (

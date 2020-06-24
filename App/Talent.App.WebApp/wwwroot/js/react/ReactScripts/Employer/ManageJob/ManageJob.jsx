@@ -325,6 +325,7 @@ export default class ManageJob extends React.Component {
 						}}
 					/>
 					{/* <Divider /> */}
+					<div style={{'marginTop': 20}}></div>
 					<Card.Group itemsPerRow={2}>
 						{this.state.loadJobs.length > 0 ? (
 							this.state.loadJobs.map((jobs) => {

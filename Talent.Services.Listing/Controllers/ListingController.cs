@@ -177,12 +177,12 @@ namespace Talent.Services.Listing.Controllers
 
                 //if (!showActive)
                 //{
-                //   sortedJobs = sortedJobs.Where(x => x.Status != JobStatus.Active);
+                //    sortedJobs = sortedJobs.Where(x => x.Status != JobStatus.Active);
                 //}
 
                 //if (!showClosed)
                 //{
-                //   sortedJobs = sortedJobs.Where(x => x.Status != JobStatus.Closed);
+                //    sortedJobs = sortedJobs.Where(x => x.Status != JobStatus.Closed);
                 //}
 
                 if (!showExpired)
@@ -198,7 +198,7 @@ namespace Talent.Services.Listing.Controllers
                 //TODO Draft not implemented yet
                 //if (!showDraft)
                 //{
-
+                //    sortedJobs = sortedJobs.Where(x => x.)
                 //}
 
                 if (sortbyDate == "desc")
